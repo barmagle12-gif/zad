@@ -31,6 +31,8 @@ jobs:
           rm -rf node_modules package-lock.json
           npm install --force
           npm install @rollup/rollup-linux-x64-gnu --save-dev
+          # تثبيت أداة الأيقونات لضمان عملها داخل السيرفر
+          npm install @capacitor/assets --save-dev
 
       - name: Build Web Assets
         run: npm run build --if-present
@@ -45,16 +47,22 @@ jobs:
         run: |
           npx cap sync android || (npx cap add android && npx cap sync android)
 
+      - name: Generate App Icons & Splash
+        run: |
+          # تأكد أن الصور موجودة في assets/icon.png و assets/splash.png
+          # السيرفر سيقوم بتوليد كل المقاسات هنا
+          npx capacitor-assets generate --android
+
       - name: Decode Keystore
         run: |
-          # فك التشفير ووضع الملف في مكان ثابت ومعروف
+          # فك التشفير ووضع الملف في المسار المطلق لضمان رؤيته بواسطة Gradle
           echo "${{ secrets.KEYSTORE_FILE_BASE64 }}" | base64 --decode > ${{ github.workspace }}/alnomany.keystore
 
       - name: Build and Sign APK (Release)
         working-directory: android
         run: |
           chmod +x ./gradlew
-          # المرة دي بنعطي Gradle المسار الكامل للملف عشان ميتوهش
+          # استخدام المسار المطلق للملف لمنع خطأ "File not found"
           ./gradlew assembleRelease \
             -Pandroid.injected.signing.store.file=${{ github.workspace }}/alnomany.keystore \
             -Pandroid.injected.signing.store.password=${{ secrets.KEYSTORE_PASSWORD }} \
