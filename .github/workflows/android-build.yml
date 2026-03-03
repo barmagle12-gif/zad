@@ -21,21 +21,21 @@ jobs:
         with:
           token: ${{ secrets.MY_GITHUB_TOKEN }}
 
-      - name: Setup Node.js
+      - name: Setup Node.js (Updated to v20)
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20' # تم التحديث لحل مشكلة glob
 
-      - name: Force Clean Install for Linux
+      - name: Clean and Install Dependencies
         run: |
-          # 1. حذف الملفات التي تسبب تعارض بين ويندوز ولينكس
+          # حذف الملفات القديمة لضمان بناء بيئة نظيفة للينكس
           rm -rf node_modules package-lock.json
           
-          # 2. تثبيت الإضافات مع إجبار النظام على جلب ملفات اللينكس
-          npm install --platform=linux --arch=x64 --force
+          # تثبيت الإضافات (npm سيتعرف تلقائياً على ما يحتاجه اللينكس)
+          npm install --force
           
-          # 3. تثبيت يدوي للمكتبات المسببة للمشكلة لضمان وجودها
-          npm install @rollup/rollup-linux-x64-gnu @rollup/rollup-linux-x64-musl --save-dev
+          # تثبيت النسخة المتوافقة مع glibc لـ Rollup (لحل خطأ libc)
+          npm install @rollup/rollup-linux-x64-gnu --save-dev
 
       - name: Build Web Assets
         run: npm run build --if-present
