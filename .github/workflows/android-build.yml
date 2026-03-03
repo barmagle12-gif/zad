@@ -47,16 +47,17 @@ jobs:
 
       - name: Decode Keystore
         run: |
-          # فك التشفير ووضع الملف في الجذر (Root)
-          echo "${{ secrets.KEYSTORE_FILE_BASE64 }}" | base64 --decode > alnomany.keystore
+          # فك تشفير الملف ووضعه مباشرة داخل مجلد الأندرويد لضمان رؤيته
+          # المجلد android/app يتم إنشاؤه بواسطة npx cap sync في الخطوة السابقة
+          echo "${{ secrets.KEYSTORE_FILE_BASE64 }}" | base64 --decode > android/app/alnomany.keystore
 
       - name: Build and Sign APK (Release)
         working-directory: android
         run: |
           chmod +x ./gradlew
-          # نستخدم ../ للرجوع للمجلد الرئيسي حيث يوجد الملف
+          # الآن الملف موجود في نفس مجلد الـ app، ننادي عليه مباشرة باسمه
           ./gradlew assembleRelease \
-            -Pandroid.injected.signing.store.file=../alnomany.keystore \
+            -Pandroid.injected.signing.store.file=alnomany.keystore \
             -Pandroid.injected.signing.store.password=${{ secrets.KEYSTORE_PASSWORD }} \
             -Pandroid.injected.signing.key.alias=${{ secrets.KEYSTORE_ALIAS }} \
             -Pandroid.injected.signing.key.password=${{ secrets.KEYSTORE_PASSWORD }}
