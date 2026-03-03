@@ -30,8 +30,12 @@ jobs:
           node-version: '18'
           cache: 'npm'
 
-      - name: Install Dependencies (no optional)
-        run: npm ci --no-optional
+      - name: Prepare and install dependencies (no optional)
+        run: |
+          # remove lock and modules to avoid stale optional native bindings
+          if [ -f package-lock.json ]; then rm package-lock.json; fi
+          if [ -d node_modules ]; then rm -rf node_modules; fi
+          npm install --no-optional
 
       - name: Build Web Assets
         run: npm run build --if-present
