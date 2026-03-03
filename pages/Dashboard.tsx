@@ -561,7 +561,7 @@ const Dashboard: React.FC = () => {
           </div>
         </SectionCard>
 
-        <SectionCard title="قسم الصلاة" icon="person_praying" infoItems={getDailyInfo('PRAYER')}>
+        <SectionCard title="قسم الصلاة" icon="prayer_rug" infoItems={getDailyInfo('PRAYER')}>
           <div className="space-y-4">
             {/* Educational Info Accordions */}
             <div className="space-y-3">
@@ -922,7 +922,7 @@ const Dashboard: React.FC = () => {
           </div>
         </SectionCard>
 
-        <SectionCard title="قسم الأذكار" icon="person_praying" infoItems={getDailyInfo('AZKAR')}>
+        <SectionCard title="قسم الأذكار" icon="tasbih" infoItems={getDailyInfo('AZKAR')}>
           <div className="space-y-3">
             {/* Custom Tasks for Azkar */}
             {customTasks.filter(t => t.section === SectionType.AZKAR).length > 0 && (
