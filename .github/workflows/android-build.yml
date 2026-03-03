@@ -16,7 +16,6 @@ jobs:
     env:
       # Use the repository secret if available; otherwise the workflow will still have GITHUB_TOKEN
       GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
-    env:
       NPM_CONFIG_OPTIONAL: 'false'
 
     steps:
