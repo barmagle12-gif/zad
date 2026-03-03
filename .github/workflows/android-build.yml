@@ -5,7 +5,6 @@ on:
     branches: [ main, master ]
   workflow_dispatch:
 
-# Allow using a repo-level token stored in Secrets (MY_GITHUB_TOKEN)
 permissions:
   contents: write
 
@@ -14,9 +13,7 @@ jobs:
     name: Build Android APK
     runs-on: ubuntu-latest
     env:
-      # Use the repository secret if available; otherwise the workflow will still have GITHUB_TOKEN
       GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
-      NPM_CONFIG_OPTIONAL: 'false'
 
     steps:
       - name: Checkout Code
@@ -28,14 +25,17 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-          cache: 'npm'
 
-      - name: Prepare and install dependencies (no optional)
+      - name: Force Clean Install for Linux
         run: |
-          # remove lock and modules to avoid stale optional native bindings
-          if [ -f package-lock.json ]; then rm package-lock.json; fi
-          if [ -d node_modules ]; then rm -rf node_modules; fi
-          npm install --no-optional
+          # 1. حذف الملفات التي تسبب تعارض بين ويندوز ولينكس
+          rm -rf node_modules package-lock.json
+          
+          # 2. تثبيت الإضافات مع إجبار النظام على جلب ملفات اللينكس
+          npm install --platform=linux --arch=x64 --force
+          
+          # 3. تثبيت يدوي للمكتبات المسببة للمشكلة لضمان وجودها
+          npm install @rollup/rollup-linux-x64-gnu @rollup/rollup-linux-x64-musl --save-dev
 
       - name: Build Web Assets
         run: npm run build --if-present
@@ -48,7 +48,7 @@ jobs:
 
       - name: Sync Capacitor Android
         run: |
-          npx cap sync android || npx cap add android && npx cap sync android
+          npx cap sync android || (npx cap add android && npx cap sync android)
 
       - name: Build Android APK (Gradle)
         working-directory: android
