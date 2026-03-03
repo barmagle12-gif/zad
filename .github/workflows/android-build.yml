@@ -41,14 +41,15 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Decode Keystore
-        run: |
-          # تحويل النص من السكرت لملف حقيقي داخل السيرفر
-          echo "${{ secrets.KEYSTORE_FILE_BASE64 }}" | base64 --decode > android/app/alnomany.keystore
-
       - name: Sync Capacitor Android
         run: |
           npx cap sync android || (npx cap add android && npx cap sync android)
+
+      - name: Decode Keystore
+        run: |
+          # تأكد من وجود المجلد ثم فك التشفير
+          mkdir -p android/app
+          echo "${{ secrets.KEYSTORE_FILE_BASE64 }}" | base64 --decode > android/app/alnomany.keystore
 
       - name: Build and Sign APK (Release)
         working-directory: android
