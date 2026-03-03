@@ -21,20 +21,15 @@ jobs:
         with:
           token: ${{ secrets.MY_GITHUB_TOKEN }}
 
-      - name: Setup Node.js (Updated to v20)
+      - name: Setup Node.js (Updated to v22)
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # تم التحديث لحل مشكلة glob
+          node-version: '22' # التحديث لنسخة 22 عشان يرضي Capacitor CLI
 
       - name: Clean and Install Dependencies
         run: |
-          # حذف الملفات القديمة لضمان بناء بيئة نظيفة للينكس
           rm -rf node_modules package-lock.json
-          
-          # تثبيت الإضافات (npm سيتعرف تلقائياً على ما يحتاجه اللينكس)
           npm install --force
-          
-          # تثبيت النسخة المتوافقة مع glibc لـ Rollup (لحل خطأ libc)
           npm install @rollup/rollup-linux-x64-gnu --save-dev
 
       - name: Build Web Assets
