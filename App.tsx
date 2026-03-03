@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { HashRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
+import Icon from './components/Icon';
 import { motion, AnimatePresence } from 'motion/react';
 import Dashboard from './pages/Dashboard';
 import History from './pages/History';
@@ -13,27 +14,27 @@ const Navigation = ({ isDarkMode, toggleTheme }: { isDarkMode: boolean, toggleTh
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white/90 dark:bg-[#111]/90 backdrop-blur-lg border-t border-gray-200 dark:border-gray-800 px-6 py-3 md:top-0 md:bottom-auto md:border-t-0 md:border-b">
       <div className="max-w-4xl mx-auto flex justify-around items-center">
-        <Link 
+          <Link 
           to="/" 
           className={`flex flex-col items-center gap-1 p-2 transition-all duration-300 ${location.pathname === '/' ? 'text-[#d4af37] scale-110' : 'text-gray-400 dark:text-gray-500 hover:text-gray-600'}`}
         >
-          <i className="fas fa-house-chimney text-xl"></i>
+          <Icon name="fa-house-chimney" className="text-xl" />
           <span className="text-[10px] font-black uppercase tracking-widest">الرئيسية</span>
         </Link>
         
-        <motion.button 
+          <motion.button 
           whileTap={{ scale: 0.9 }}
           onClick={toggleTheme}
           className="w-14 h-14 -mt-12 bg-gradient-to-br from-[#d4af37] via-[#b8962c] to-[#9a7d24] rounded-full flex items-center justify-center shadow-2xl shadow-yellow-900/40 md:mt-0 md:w-11 md:h-11 border-4 border-white dark:border-[#111] z-10"
         >
-           <i className={`fas ${isDarkMode ? 'fa-sun' : 'fa-moon'} text-white text-xl md:text-lg`}></i>
+            <Icon name={isDarkMode ? 'fa-sun' : 'fa-moon'} className={`text-white text-xl md:text-lg`} />
         </motion.button>
 
         <Link 
           to="/history" 
           className={`flex flex-col items-center gap-1 p-2 transition-all duration-300 ${location.pathname === '/history' ? 'text-[#d4af37] scale-110' : 'text-gray-400 dark:text-gray-500 hover:text-gray-600'}`}
         >
-          <i className="fas fa-chart-line text-xl"></i>
+          <Icon name="fa-chart_line" className="text-xl" />
           <span className="text-[10px] font-black uppercase tracking-widest">التقييم</span>
         </Link>
       </div>
@@ -58,16 +59,16 @@ const Header = () => (
     <div className="absolute top-0 left-2 md:left-24 animate-swing origin-top z-20">
       <div className="w-[1px] h-8 md:h-12 bg-[#d4af37]/40 mx-auto"></div>
       <div className="flex flex-col items-center -mt-1">
-        <i className="fas fa-moon text-yellow-500 text-[10px] md:text-xs lantern"></i>
-        <i className="fas fa-star text-yellow-600/30 text-[6px] md:text-[8px] mt-1"></i>
+        <Icon name="fa-moon" className="text-yellow-500 text-[10px] md:text-xs lantern" />
+        <Icon name="fa-star" className="text-yellow-600/30 text-[6px] md:text-[8px] mt-1" />
       </div>
     </div>
     
     <div className="absolute top-0 right-2 md:right-24 animate-swing origin-top z-20" style={{ animationDelay: '0.3s' }}>
       <div className="w-[1px] h-10 md:h-14 bg-[#d4af37]/40 mx-auto"></div>
       <div className="flex flex-col items-center -mt-1">
-         <i className="fas fa-mosque text-yellow-600/40 text-[10px] md:text-xs mb-1"></i>
-         <i className="fas fa-star text-yellow-500 text-[10px] md:text-xs lantern"></i>
+        <Icon name="fa-mosque" className="text-yellow-600/40 text-[10px] md:text-xs mb-1" />
+        <Icon name="fa-star" className="text-yellow-500 text-[10px] md:text-xs lantern" />
       </div>
     </div>
 
@@ -78,7 +79,7 @@ const Header = () => (
       className="relative inline-flex items-center justify-center gap-2 md:gap-4 mb-6 md:mb-10"
     >
        <div className="flex flex-col items-center animate-float" style={{ animationDelay: '0.1s' }}>
-          <i className="fas fa-moon text-yellow-500 text-lg md:text-xl lantern rotate-[-15deg]"></i>
+         <Icon name="fa-moon" className="text-yellow-500 text-lg md:text-xl lantern rotate-[-15deg]" />
        </div>
 
        <div className="px-6 py-3 md:px-10 md:py-4 bg-gradient-to-r from-yellow-600/10 via-yellow-400/20 to-yellow-600/10 dark:from-yellow-900/30 dark:via-yellow-800/20 dark:to-yellow-900/30 rounded-full border border-yellow-500/30 backdrop-blur-md shadow-xl animate-glow relative overflow-hidden group">
@@ -89,7 +90,7 @@ const Header = () => (
        </div>
 
        <div className="flex flex-col items-center animate-float" style={{ animationDelay: '0.2s' }}>
-          <i className="fas fa-moon text-yellow-500 text-lg md:text-xl lantern rotate-[15deg]" style={{ transform: 'scaleX(-1)' }}></i>
+         <Icon name="fa-moon" className="text-yellow-500 text-lg md:text-xl lantern rotate-[15deg]" style={{ transform: 'scaleX(-1)' }} />
        </div>
     </motion.div>
     

@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import "@fortawesome/fontawesome-free/css/all.min.css";
 
 /* Dark mode support for Tailwind v4 with class strategy */
 @variant dark (&:where(.dark, .dark *));

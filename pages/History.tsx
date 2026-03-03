@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { getLogs, getCustomTasks, getLogicalToday, formatDate } from '../services/storageService';
 import { DailyLog } from '../types';
 import { PRAYER_TASKS, AZKAR_CATEGORIES, GOOD_DEED_CATEGORIES, MUJAHADA_CATEGORIES, SYNC_MAPPINGS } from '../constants';
+import Icon from '../components/Icon';
 import { PdfService } from '../services/pdfService';
 import { getHijriParts, hijriToGregorian, HIJRI_MONTHS } from '../services/dateUtils';
 
@@ -376,7 +377,7 @@ const History: React.FC = () => {
       )}
 
       {/* Hidden Professional Report Template */}
-      <div id="professional-report" className="fixed -left-[9999px] top-0 w-[210mm] bg-white dark:bg-[#071018] text-black dark:text-gray-100 p-[25mm] font-sans" dir="rtl">
+      <div id="professional-report" className="fixed -left-[9999px] top-0 w-[210mm] bg-white dark:bg-[#0f1724] text-black dark:text-gray-100 p-[25mm] font-sans" dir="rtl">
         {/* Header Section with Logo */}
         <div className="flex justify-between items-start border-b-8 border-yellow-600 pb-10 mb-10">
           <div className="flex items-center gap-6">
@@ -427,7 +428,7 @@ const History: React.FC = () => {
         {/* Performance Analysis Table */}
         <div className="mb-12">
           <h2 className="text-xs font-black text-gray-400 uppercase tracking-[0.3em] mb-6 border-b border-gray-100 pb-2">تحليل الأداء التفصيلي</h2>
-          <table className="w-full text-right border-collapse overflow-hidden rounded-2xl border border-slate-100 erp-table">
+            <table className="w-full text-right border-collapse overflow-hidden rounded-2xl border border-slate-100 erp-table">
             <thead>
               <tr className="bg-slate-50 text-slate-500 text-[9px] font-black uppercase tracking-widest border-b border-slate-100">
                 <th className="p-5">التاريخ</th>
@@ -471,7 +472,7 @@ const History: React.FC = () => {
               const dayLog = logs[date];
               const { posItems, negItems, netTotal } = getDayDetails(dayLog);
               return (
-                <div key={date} className="p-6 rounded-2xl border border-slate-100 bg-white dark:bg-[#071018] dark:border-gray-800 text-slate-900 dark:text-gray-200">
+                <div key={date} className="p-6 rounded-2xl border border-slate-100 bg-white dark:bg-[#0f1724] dark:border-gray-800 text-slate-900 dark:text-gray-200">
                   <h3 className="text-sm font-black text-slate-900 dark:text-gray-100 mb-2">{formatArabicDate(date)} — {formatArabicDate(date, true)}</h3>
                   <p className="text-[13px] font-bold text-slate-700 dark:text-gray-300 mb-3">جملة الأداء: إجمالي النقاط لهذا اليوم <span className={`font-extrabold ${netTotal >= 0 ? 'text-emerald-500' : 'text-red-500'}`}>{netTotal > 0 ? `+${netTotal}` : netTotal}</span>.</p>
 
@@ -583,10 +584,38 @@ const History: React.FC = () => {
           </div>
         </div>
       </div>
+
+        {/* Period Comparison (First half vs Second half) */}
+        {filteredDates.length > 1 && (() => {
+          const half = Math.ceil(filteredDates.length / 2);
+          const firstDates = filteredDates.slice(0, half);
+          const secondDates = filteredDates.slice(half);
+          const sumPeriod = (arr: string[]) => arr.reduce((acc, d) => acc + getDayDetails(logs[d]).netTotal, 0);
+          const fSum = sumPeriod(firstDates);
+          const sSum = sumPeriod(secondDates);
+          const diff = sSum - fSum;
+          const pct = fSum === 0 ? (sSum === 0 ? 0 : 100) : Math.round(((sSum - fSum) / Math.abs(fSum)) * 100);
+          return (
+            <div className="mb-8">
+              <h2 className="text-xs font-black text-gray-400 uppercase tracking-[0.3em] mb-4">مقارنة الفترات</h2>
+              <div className="p-6 bg-gray-50 dark:bg-[#09121a] rounded-2xl border border-slate-100 dark:border-gray-800">
+                <p className="text-[12px] text-slate-700 dark:text-gray-200 mb-2">
+                  قسّمنا المدى المختار إلى فترتين لمقارنة الأداء: الفترة الأولى ({firstDates.length} يوم) والفترة الثانية ({secondDates.length} يوم).
+                </p>
+                <p className="text-[13px] font-black mb-2">
+                  إجمالي رصيد الفترة الأولى: <span className="text-emerald-600">{fSum}</span> — إجمالي رصيد الفترة الثانية: <span className="text-emerald-600">{sSum}</span>.
+                </p>
+                <p className="text-[12px] text-slate-700 dark:text-gray-200">
+                  النتيجة: {diff > 0 ? `زاد رصيدك بمقدار ${diff} نقطة (${pct}%) في الفترة الثانية مقارنة بالأولى.` : diff < 0 ? `انخفض رصيدك بمقدار ${Math.abs(diff)} نقطة (${Math.abs(pct)}%).` : 'ثبات ملحوظ؛ لم يتغير صافي الرصيد بين الفترتين.'}
+                </p>
+              </div>
+            </div>
+          );
+        })()}
       {/* Dynamic Detail Modal */}
       {activeBreakdownDate && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl" onClick={() => setActiveBreakdownDate(null)}>
-          <div className="bg-white dark:bg-[#1a1a1a] w-full max-w-2xl rounded-[3rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh] border-4 border-yellow-600/30" onClick={e => e.stopPropagation()}>
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl" onClick={() => setActiveBreakdownDate(null)}>
+            <div className="bg-white dark:bg-[#0f1724] w-full max-w-2xl rounded-[3rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh] border-4 border-yellow-600/30" onClick={e => e.stopPropagation()}>
             <div className={`p-8 bg-gradient-to-br text-white relative ${
               modalType === 'goodDeeds' ? 'from-emerald-700 via-emerald-600 to-emerald-800' :
               modalType === 'mujahada' ? 'from-red-700 via-red-600 to-red-800' :
@@ -603,7 +632,7 @@ const History: React.FC = () => {
                   <p className="text-sm font-black text-white/70">{formatArabicDate(activeBreakdownDate, true)}</p>
                 </div>
                 <button onClick={() => setActiveBreakdownDate(null)} className="w-12 h-12 rounded-full bg-white/20 dark:bg-gray-700/30 hover:bg-white/40 dark:hover:bg-gray-600/40 flex items-center justify-center transition-all">
-                  <i className="fas fa-times text-xl"></i>
+                  <Icon name="fa-times" className="text-xl" />
                 </button>
               </div>
             </div>
@@ -629,7 +658,7 @@ const History: React.FC = () => {
               <div className="space-y-6">
                 {(modalType === 'full' || modalType === 'goodDeeds') && (
                   <div className="space-y-3">
-                    <h3 className="text-sm font-black text-emerald-700 flex items-center gap-2"><i className="fas fa-star"></i> الطاعات وأعمال الخير</h3>
+                    <h3 className="text-sm font-black text-emerald-700 flex items-center gap-2"><Icon name="fa-star" /> الطاعات وأعمال الخير</h3>
                     {getDayDetails(logs[activeBreakdownDate]).posItems.filter(i => modalType === 'full' || i.category.includes('البر') || i.category.includes('إضافية')).map((item, idx) => (
                       <div key={idx} className="flex justify-between items-center bg-emerald-50/30 dark:bg-emerald-900/10 p-4 rounded-2xl border border-emerald-100/50 dark:border-emerald-900/20">
                         <div><span className="text-xs font-bold block dark:text-emerald-500">{item.label}</span><span className="text-[9px] text-gray-400 dark:text-gray-500">{item.category}</span></div>
@@ -644,7 +673,7 @@ const History: React.FC = () => {
 
                 {(modalType === 'full' || modalType === 'mujahada') && (
                   <div className="space-y-3">
-                    <h3 className="text-sm font-black text-red-700 flex items-center gap-2"><i className="fas fa-exclamation-circle"></i> الزلات والمجاهدة</h3>
+                    <h3 className="text-sm font-black text-red-700 flex items-center gap-2"><Icon name="fa-exclamation-circle" /> الزلات والمجاهدة</h3>
                     {getDayDetails(logs[activeBreakdownDate]).negItems.map((item, idx) => (
                       <div key={idx} className="flex justify-between items-center bg-red-50/30 dark:bg-red-900/10 p-4 rounded-2xl border border-red-100/50 dark:border-red-900/20">
                         <div><span className="text-xs font-bold block dark:text-red-500">{item.label}</span><span className="text-[9px] text-gray-400 dark:text-gray-500">{item.category}</span></div>
@@ -663,13 +692,13 @@ const History: React.FC = () => {
       )}
 
       {/* Stats Summary Card */}
-      <div className="bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 rounded-[3rem] p-10 text-center shadow-2xl relative overflow-hidden">
+      <div className="bg-white dark:bg-[#0f1724] border border-gray-200 dark:border-gray-800 rounded-[3rem] p-10 text-center shadow-2xl relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-2 bg-yellow-600"></div>
         <h2 className="text-gray-400 dark:text-gray-500 text-[10px] mb-2 font-black tracking-widest uppercase">رصيد الإيمان الكلي</h2>
         <div className="text-8xl font-black gold-gradient mb-6 drop-shadow-xl">{totalNetScore}</div>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <div className="text-[11px] text-yellow-800 dark:text-yellow-500 bg-yellow-50 dark:bg-yellow-900/20 px-6 py-2 rounded-full border border-yellow-200 dark:border-yellow-900/30 font-black">
-            <i className="fas fa-calendar-alt ml-2"></i> {formatArabicDate(startDate)} - {formatArabicDate(endDate)}
+          <div className="text-[11px] text-yellow-800 dark:text-white bg-yellow-50 dark:bg-yellow-900/20 px-6 py-2 rounded-full border border-yellow-200 dark:border-yellow-900/30 font-black">
+            <Icon name="fa-calendar-alt" className="ml-2" /> {formatArabicDate(startDate)} - {formatArabicDate(endDate)}
           </div>
           <div className="flex gap-2">
             <button 
@@ -677,7 +706,7 @@ const History: React.FC = () => {
               disabled={isGeneratingPdf}
               className="text-[11px] bg-slate-800 text-white px-6 py-2 rounded-full hover:bg-slate-700 transition-all flex items-center gap-2 print:hidden shadow-lg disabled:opacity-50"
             >
-              <i className={`fas ${isGeneratingPdf ? 'fa-spinner fa-spin' : 'fa-download'}`}></i> 
+              <Icon name={isGeneratingPdf ? 'fa-spinner' : 'fa-download'} className={isGeneratingPdf ? 'fa-spin' : ''} />
               {isGeneratingPdf ? 'جاري التحميل...' : 'حفظ التقرير PDF'}
             </button>
             <button 
@@ -685,7 +714,7 @@ const History: React.FC = () => {
               disabled={isGeneratingPdf}
               className="text-[11px] bg-yellow-600 text-white px-6 py-2 rounded-full hover:bg-yellow-700 transition-all flex items-center gap-2 print:hidden shadow-lg disabled:opacity-50"
             >
-              <i className={`fas ${isGeneratingPdf ? 'fa-spinner fa-spin' : 'fa-share-nodes'}`}></i> 
+              <Icon name={isGeneratingPdf ? 'fa-spinner' : 'fa-share-nodes'} className={isGeneratingPdf ? 'fa-spin' : ''} />
               {isGeneratingPdf ? 'جاري المعالجة...' : 'مشاركة التقرير'}
             </button>
           </div>
@@ -693,7 +722,7 @@ const History: React.FC = () => {
       </div>
 
       {/* Filter Tools */}
-      <div className="bg-white dark:bg-[#151515] p-6 rounded-[2.5rem] border border-gray-100 dark:border-gray-800 shadow-lg flex flex-col md:flex-row gap-6 items-center print:hidden">
+      <div className="bg-white dark:bg-[#0f1724] p-6 rounded-[2.5rem] border border-gray-100 dark:border-gray-800 shadow-lg flex flex-col md:flex-row gap-6 items-center print:hidden">
         <div className="grid grid-cols-2 gap-4 w-full">
           {isHijriMode ? (
             <>
@@ -717,11 +746,11 @@ const History: React.FC = () => {
           onClick={() => setIsHijriMode(!isHijriMode)} 
           className={`px-8 py-4 rounded-2xl shadow-xl font-black text-sm transition-all flex items-center justify-center gap-2 w-full md:w-auto ${isHijriMode ? 'bg-yellow-600 text-white hover:bg-yellow-700' : 'bg-slate-800 text-white hover:bg-slate-700'}`}
         >
-          <i className={`fas ${isHijriMode ? 'fa-kaaba' : 'fa-calendar-day'}`}></i>
+          <Icon name={isHijriMode ? 'fa-kaaba' : 'fa-calendar-day'} />
           {isHijriMode ? 'عرض بالميلادي' : 'عرض بالهجري'}
         </button>
 
-        <div className="flex flex-col bg-gray-100 dark:bg-[#1a1a1a] p-4 rounded-2xl gap-2 w-full md:w-64">
+        <div className="flex flex-col bg-gray-100 dark:bg-[#0f1724] p-4 rounded-2xl gap-2 w-full md:w-64">
           <div className="flex justify-between items-center px-1">
             <span className="text-[10px] font-black text-gray-500 dark:text-gray-400 uppercase tracking-widest">حجم الجدول: {zoom}%</span>
             <button onClick={() => setZoom(100)} className="text-[9px] font-black text-yellow-600 hover:underline">إعادة ضبط</button>
@@ -747,12 +776,12 @@ const History: React.FC = () => {
       <div className="relative group/table">
         <div className="absolute left-4 top-1/2 -translate-y-1/2 z-20 pointer-events-none opacity-0 group-hover/table:opacity-100 transition-opacity md:hidden">
           <div className="bg-yellow-600/80 text-white p-2 rounded-full animate-pulse shadow-lg">
-            <i className="fas fa-chevron-left"></i>
+            <Icon name="fa-chevron-left" />
           </div>
         </div>
         
         <div 
-          className="bg-white dark:bg-[#151515] rounded-[2.5rem] overflow-hidden shadow-2xl border border-gray-100 dark:border-gray-800 transition-all duration-300"
+          className="bg-white dark:bg-[#0f1724] rounded-[2.5rem] overflow-hidden shadow-2xl border border-gray-100 dark:border-gray-800 transition-all duration-300"
           style={{ transform: `scale(${zoom / 100})`, transformOrigin: 'top center', marginBottom: `${(zoom - 100) * 2}px` }}
         >
           <div className="overflow-x-auto">
@@ -799,7 +828,7 @@ const History: React.FC = () => {
                       <td className={cellPadding}>
                         {log.quranEnd > log.quranStart ? (
                           <div className={`inline-flex items-center gap-2 bg-yellow-50 dark:bg-yellow-900/20 ${badgeSize} rounded-full border border-yellow-200 whitespace-nowrap`}>
-                            <i className="fas fa-book-quran text-yellow-600"></i>
+                            <Icon name="fa-book_quran" className="text-yellow-600" />
                             <span className={`${zoom < 100 ? 'text-[9px]' : 'text-[10px]'} font-black`}>ص {log.quranStart}-{log.quranEnd}</span>
                           </div>
                         ) : <span className="text-gray-200">-</span>}
@@ -825,7 +854,7 @@ const History: React.FC = () => {
                             onClick={(e) => { e.stopPropagation(); handleOpenModal(date, 'goodDeeds'); }}
                             className={`${iconSize} flex-shrink-0 rounded-2xl bg-emerald-500 text-white flex items-center justify-center hover:bg-emerald-600 hover:scale-110 transition-all shadow-xl shadow-emerald-500/30`}
                           >
-                             <i className={`fas fa-eye ${zoom < 100 ? 'text-xs md:text-sm' : 'text-sm md:text-lg'}`}></i>
+                             <Icon name="fa-eye" className={`${zoom < 100 ? 'text-xs md:text-sm' : 'text-sm md:text-lg'}`} />
                           </button>
                         </div>
                       </td>
@@ -838,7 +867,7 @@ const History: React.FC = () => {
                             onClick={(e) => { e.stopPropagation(); handleOpenModal(date, 'mujahada'); }}
                             className={`${iconSize} flex-shrink-0 rounded-2xl flex items-center justify-center transition-all shadow-xl bg-red-600 text-white shadow-red-600/30 hover:bg-red-700 hover:scale-110 ${!hasZalla ? 'opacity-40 grayscale-[0.5]' : 'animate-pulse'}`}
                           >
-                            <i className={`fas fa-eye ${zoom < 100 ? 'text-xs md:text-sm' : 'text-sm md:text-lg'}`}></i>
+                            <Icon name="fa-eye" className={`${zoom < 100 ? 'text-xs md:text-sm' : 'text-sm md:text-lg'}`} />
                           </button>
                         </div>
                       </td>

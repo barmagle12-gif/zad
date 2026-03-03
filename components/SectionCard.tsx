@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import Icon from './Icon';
 import { motion, AnimatePresence } from 'motion/react';
 
 interface InfoItem {
@@ -30,12 +31,12 @@ const SectionCard: React.FC<SectionCardProps> = ({ title, icon, children, infoIt
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className="flex items-center gap-4 flex-grow">
-          <motion.div 
+            <motion.div 
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             className="w-12 h-12 rounded-2xl bg-white dark:bg-[#222] flex items-center justify-center text-[#d4af37] border border-gray-200 dark:border-gray-800 group-hover:border-yellow-600/50 transition-colors shadow-sm"
           >
-            <i className={`fas ${icon} text-xl ${isOpen ? 'animate-pulse' : ''}`}></i>
+            <Icon name={icon} className={`text-xl ${isOpen ? 'animate-pulse' : ''}`} />
           </motion.div>
           <div className="flex flex-col">
              <h3 className="text-lg font-black text-slate-800 dark:text-gray-100 tracking-tight">{title}</h3>
@@ -45,11 +46,11 @@ const SectionCard: React.FC<SectionCardProps> = ({ title, icon, children, infoIt
           </div>
         </div>
         
-        <motion.div 
+          <motion.div 
           animate={{ rotate: isOpen ? 180 : 0 }}
           className="w-10 h-10 rounded-2xl flex items-center justify-center text-gray-400 dark:text-gray-500 group-hover:text-yellow-600 bg-gray-100 dark:bg-[#222] transition-all"
         >
-          <i className="fas fa-chevron-down text-xs"></i>
+          <Icon name="fa-chevron-down" className="text-xs" />
         </motion.div>
       </motion.div>
       

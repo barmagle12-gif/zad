@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
+import Icon from '../components/Icon';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   PRAYER_TASKS, 
@@ -283,40 +284,40 @@ const Dashboard: React.FC = () => {
         {occasion === 'ramadan' && (
           <>
             <div className="absolute top-4 right-4 text-yellow-600/20 dark:text-yellow-500/20 text-6xl animate-pulse">
-              <i className="fas fa-moon"></i>
+              <Icon name="fa-moon" />
             </div>
             <div className="absolute bottom-4 left-4 text-yellow-600/20 dark:text-yellow-500/20 text-6xl animate-pulse">
-              <i className="fas fa-star"></i>
+              <Icon name="fa-star" />
             </div>
           </>
         )}
         {occasion === 'eid_fitr' && (
           <>
             <div className="absolute top-4 right-4 text-emerald-600/20 dark:text-emerald-500/20 text-6xl animate-bounce">
-              <i className="fas fa-cookie"></i>
+              <Icon name="fa-cookie" />
             </div>
             <div className="absolute bottom-4 left-4 text-emerald-600/20 dark:text-emerald-500/20 text-6xl animate-bounce">
-              <i className="fas fa-gift"></i>
+              <Icon name="fa-gift" />
             </div>
           </>
         )}
         {occasion === 'eid_adha' && (
           <>
             <div className="absolute top-4 right-4 text-amber-600/20 dark:text-amber-500/20 text-6xl">
-              <i className="fas fa-cow"></i>
+              <Icon name="fa-cow" />
             </div>
             <div className="absolute bottom-4 left-4 text-amber-600/20 dark:text-amber-500/20 text-6xl">
-              <i className="fas fa-sheep"></i>
+              <Icon name="fa-sheep" />
             </div>
           </>
         )}
         {occasion === 'normal' && (
           <>
             <div className="absolute top-4 right-4 text-yellow-600/10 dark:text-yellow-500/10 text-6xl">
-              <i className="fas fa-sun"></i>
+              <Icon name="fa-sun" />
             </div>
             <div className="absolute bottom-4 left-4 text-yellow-600/10 dark:text-yellow-500/10 text-6xl">
-              <i className="fas fa-heart"></i>
+              <Icon name="fa-heart" />
             </div>
           </>
         )}
@@ -364,7 +365,7 @@ const Dashboard: React.FC = () => {
                 scoreTrend === 'down' ? 'bg-orange-500 text-white' :
                 'bg-blue-500 text-white'
               }`}>
-                <i className={`fas ${scoreTrend === 'up' ? 'fa-arrow-trend-up' : scoreTrend === 'down' ? 'fa-arrow-trend-down' : 'fa-minus'}`}></i>
+                <Icon name={scoreTrend === 'up' ? 'fa-arrow-trend-up' : scoreTrend === 'down' ? 'fa-arrow-trend-down' : 'fa-minus'} />
               </div>
               <div className="text-right flex-grow">
                 <p className={`text-xs font-black uppercase tracking-wider mb-1 ${
@@ -400,7 +401,7 @@ const Dashboard: React.FC = () => {
             whileHover={{ y: -5 }}
             className="bg-white dark:bg-[#151515] p-4 md:p-5 rounded-[2rem] border border-gray-100 dark:border-gray-800 flex flex-col items-center justify-center shadow-lg transition-all"
           >
-            <i className={`fas ${stat.icon} text-[10px] mb-2 ${stat.theme === 'danger' ? 'text-red-500/60' : 'text-yellow-600/60'}`}></i>
+            <Icon name={stat.icon} className={`text-[10px] mb-2 ${stat.theme === 'danger' ? 'text-red-500/60' : 'text-yellow-600/60'}`} />
             <span className="text-gray-400 dark:text-gray-500 text-[8px] md:text-[9px] mb-1 font-black uppercase text-center leading-tight">{stat.label}</span>
             <span className={`text-2xl md:text-3xl font-black ${stat.theme === 'gold' ? 'gold-gradient' : stat.theme === 'danger' ? 'text-red-600' : 'text-slate-800 dark:text-gray-100'}`}>{stat.value}</span>
           </motion.div>
@@ -437,7 +438,7 @@ const Dashboard: React.FC = () => {
             <div className="border border-gray-100 dark:border-gray-800 rounded-2xl overflow-hidden shadow-sm">
               <button onClick={() => setOpenQuranSub(openQuranSub === 'track' ? null : 'track')} className="w-full flex items-center justify-between p-4 bg-emerald-50/30 dark:bg-[#1a1a1a]">
                 <span className="text-sm font-black text-emerald-700 dark:text-emerald-500">1. متابعة الورد (الكمّي)</span>
-                <i className={`fas fa-chevron-down text-xs transition-transform ${openQuranSub === 'track' ? 'rotate-180' : ''}`}></i>
+                <Icon name="fa-chevron-down" className={`text-xs transition-transform ${openQuranSub === 'track' ? 'rotate-180' : ''}`} />
               </button>
               {openQuranSub === 'track' && (
                 <div className="p-4 bg-white dark:bg-[#151515] space-y-4 animate-fade-in">
@@ -454,12 +455,12 @@ const Dashboard: React.FC = () => {
 
                    {quranCalculations.readToday > 0 ? (
                       <div className="bg-emerald-500 text-white p-3 rounded-xl text-center animate-bounce shadow-lg">
-                        <i className="fas fa-check-circle mr-2"></i>
+                        <Icon name="fa-check-circle" className="mr-2" />
                         <span className="text-xs font-black">فتح الله عليك! قرأت {quranCalculations.readToday} صفحة</span>
                       </div>
                    ) : (
                       <div className="bg-orange-50 dark:bg-orange-900/10 text-orange-700 dark:text-orange-500 p-3 rounded-xl text-center border border-orange-100 dark:border-orange-900/20">
-                        <i className="fas fa-heart mr-2"></i>
+                        <Icon name="fa-heart" className="mr-2" />
                         <span className="text-xs font-black">أما اشتقت لحديث ربك؟ ابدأ وردك الآن</span>
                       </div>
                    )}
@@ -495,7 +496,7 @@ const Dashboard: React.FC = () => {
             <div className="border border-gray-100 dark:border-gray-800 rounded-2xl overflow-hidden shadow-sm">
               <button onClick={() => setOpenQuranSub(openQuranSub === 'tadabbur' ? null : 'tadabbur')} className="w-full flex items-center justify-between p-4 bg-blue-50/30 dark:bg-[#1a1a1a]">
                 <span className="text-sm font-black text-blue-700 dark:text-blue-500">2. قسم التدبر (الكيفي)</span>
-                <i className={`fas fa-chevron-down text-xs transition-transform ${openQuranSub === 'tadabbur' ? 'rotate-180' : ''}`}></i>
+                <Icon name="fa-chevron-down" className={`text-xs transition-transform ${openQuranSub === 'tadabbur' ? 'rotate-180' : ''}`} />
               </button>
               {openQuranSub === 'tadabbur' && (
                 <div className="p-4 bg-white dark:bg-[#151515] space-y-4 animate-fade-in">
@@ -532,20 +533,20 @@ const Dashboard: React.FC = () => {
             <div className="border border-gray-100 dark:border-gray-800 rounded-2xl overflow-hidden shadow-sm">
               <button onClick={() => setOpenQuranSub(openQuranSub === 'other' ? null : 'other')} className="w-full flex items-center justify-between p-4 bg-purple-50/30 dark:bg-[#1a1a1a]">
                 <span className="text-sm font-black text-purple-700 dark:text-purple-500">3. السماع والوجل</span>
-                <i className={`fas fa-chevron-down text-xs transition-transform ${openQuranSub === 'other' ? 'rotate-180' : ''}`}></i>
+                <Icon name="fa-chevron-down" className={`text-xs transition-transform ${openQuranSub === 'other' ? 'rotate-180' : ''}`} />
               </button>
               {openQuranSub === 'other' && (
                 <div className="p-4 bg-white dark:bg-[#151515] space-y-4 animate-fade-in">
                    <label className="flex items-center justify-between p-4 rounded-xl bg-gray-50 dark:bg-gray-800 cursor-pointer">
                       <div className="flex items-center gap-3">
-                        <i className="fas fa-headphones text-purple-600"></i>
+                        <Icon name="fa-headphones" className="text-purple-600" />
                         <span className="text-xs font-bold">ورد السماع</span>
                       </div>
                       <input type="checkbox" checked={log.quranListening} onChange={(e) => setLog(p => ({...p, quranListening: e.target.checked}))} className="w-5 h-5 rounded text-purple-600" />
                    </label>
                    <div className="flex items-center justify-between p-4 rounded-xl bg-gray-50 dark:bg-gray-800">
                       <div className="flex items-center gap-3">
-                        <i className="fas fa-person-praying text-purple-600"></i>
+                        <Icon name="fa-person-praying" className="text-purple-600" />
                         <span className="text-xs font-bold">سجدات التلاوة</span>
                       </div>
                       <div className="flex items-center gap-2">
@@ -875,7 +876,7 @@ const Dashboard: React.FC = () => {
                     className="w-full flex items-center justify-between p-4 bg-yellow-50/30 dark:bg-[#1a1a1a] hover:bg-yellow-100/50 transition-colors"
                   >
                     <span className="text-xs font-black text-yellow-700 dark:text-yellow-500">{item.title}</span>
-                    <i className={`fas fa-chevron-down text-[10px] transition-transform ${openPrayerInfoCategory === idx ? 'rotate-180' : ''}`}></i>
+                    <Icon name="fa-chevron-down" className={`text-[10px] transition-transform ${openPrayerInfoCategory === idx ? 'rotate-180' : ''}`} />
                   </button>
                   {openPrayerInfoCategory === idx && (
                     <div className="p-4 bg-white dark:bg-[#151515] animate-fade-in border-t border-gray-50 dark:border-gray-800">
@@ -898,7 +899,7 @@ const Dashboard: React.FC = () => {
                         <span className="text-xs font-bold text-slate-700 dark:text-gray-200">{task.label}</span>
                       </label>
                       <button onClick={() => removeCustomTask(task.id)} className="text-red-500/50 hover:text-red-500 transition-colors">
-                        <i className="fas fa-trash-can text-[10px]"></i>
+                        <Icon name="fa-trash-can" className="text-[10px]" />
                       </button>
                     </div>
                   ))}
@@ -915,7 +916,7 @@ const Dashboard: React.FC = () => {
                 className="flex-grow bg-transparent text-xs p-2 outline-none" 
               />
               <button onClick={() => addCustomTask(SectionType.PRAYER)} className="bg-yellow-600 text-white w-8 h-8 rounded-xl flex items-center justify-center shadow-sm">
-                <i className="fas fa-plus text-xs"></i>
+                <Icon name="fa-plus" className="text-xs" />
               </button>
             </div>
           </div>
@@ -935,7 +936,7 @@ const Dashboard: React.FC = () => {
                         <span className="text-xs font-bold text-slate-700 dark:text-gray-200">{task.label}</span>
                       </label>
                       <button onClick={() => removeCustomTask(task.id)} className="text-red-500/50 hover:text-red-500 transition-colors">
-                        <i className="fas fa-trash-can text-[10px]"></i>
+                        <Icon name="fa-trash-can" className="text-[10px]" />
                       </button>
                     </div>
                   ))}
@@ -952,14 +953,14 @@ const Dashboard: React.FC = () => {
                 className="flex-grow bg-transparent text-xs p-2 outline-none" 
               />
               <button onClick={() => addCustomTask(SectionType.AZKAR)} className="bg-purple-600 text-white w-8 h-8 rounded-xl flex items-center justify-center shadow-sm">
-                <i className="fas fa-plus text-xs"></i>
+                <Icon name="fa-plus" className="text-xs" />
               </button>
             </div>
             {AZKAR_CATEGORIES.map((cat, idx) => (
               <div key={idx} className="border border-gray-100 dark:border-gray-800 rounded-2xl overflow-hidden shadow-sm">
                 <button onClick={() => setOpenAzkarCategory(openAzkarCategory === idx ? null : idx)} className="w-full flex items-center justify-between p-4 bg-purple-50/30 dark:bg-[#1a1a1a]">
                   <span className="text-sm font-black text-purple-700 dark:text-purple-500">{cat.category}</span>
-                  <i className={`fas fa-chevron-down text-xs transition-transform ${openAzkarCategory === idx ? 'rotate-180' : ''}`}></i>
+                  <Icon name="fa-chevron-down" className={`text-xs transition-transform ${openAzkarCategory === idx ? 'rotate-180' : ''}`} />
                 </button>
                 {openAzkarCategory === idx && (
                   <div className="p-4 bg-white dark:bg-[#151515] space-y-2 animate-fade-in">
@@ -1005,7 +1006,7 @@ const Dashboard: React.FC = () => {
                         <span className="text-xs font-bold text-slate-700 dark:text-gray-200">{task.label}</span>
                       </label>
                       <button onClick={() => removeCustomTask(task.id)} className="text-red-500/50 hover:text-red-500 transition-colors">
-                        <i className="fas fa-trash-can text-[10px]"></i>
+                        <Icon name="fa-trash-can" className="text-[10px]" />
                       </button>
                     </div>
                   ))}
@@ -1022,7 +1023,7 @@ const Dashboard: React.FC = () => {
                 className="flex-grow bg-transparent text-xs p-2 outline-none" 
               />
               <button onClick={() => addCustomTask(SectionType.GOOD_DEEDS)} className="bg-emerald-600 text-white w-8 h-8 rounded-xl flex items-center justify-center shadow-sm">
-                <i className="fas fa-plus text-xs"></i>
+                <Icon name="fa-plus" className="text-xs" />
               </button>
             </div>
 
@@ -1030,7 +1031,7 @@ const Dashboard: React.FC = () => {
               <div key={idx} className="border border-gray-100 dark:border-gray-800 rounded-2xl overflow-hidden shadow-sm">
                 <button onClick={() => setOpenDeedCategory(openDeedCategory === idx ? null : idx)} className="w-full flex items-center justify-between p-4 bg-emerald-50/30 dark:bg-[#1a1a1a]">
                   <span className="text-sm font-black text-emerald-700 dark:text-emerald-500">{cat.category}</span>
-                  <i className={`fas fa-chevron-down text-xs transition-transform ${openDeedCategory === idx ? 'rotate-180' : ''}`}></i>
+                  <Icon name="fa-chevron-down" className={`text-xs transition-transform ${openDeedCategory === idx ? 'rotate-180' : ''}`} />
                 </button>
                 {openDeedCategory === idx && (
                   <div className="p-4 bg-white dark:bg-[#151515] space-y-2 animate-fade-in">
@@ -1045,7 +1046,7 @@ const Dashboard: React.FC = () => {
                     ))}
                     <div className="flex gap-2 mt-4 pt-2 border-t border-gray-50">
                        <input type="text" placeholder="غير ذلك..." value={manualInputs[`notes-${idx}`] || ''} onChange={(e) => setManualInputs(p => ({...p, [`notes-${idx}`]: e.target.value}))} className="flex-grow bg-gray-50 dark:bg-[#1a1a1a] text-xs p-3 rounded-xl outline-none" />
-                       <button onClick={() => addManualEntry('notes', idx)} className="bg-emerald-600 text-white px-4 rounded-xl"><i className="fas fa-plus"></i></button>
+                       <button onClick={() => addManualEntry('notes', idx)} className="bg-emerald-600 text-white px-4 rounded-xl"><Icon name="fa-plus" className="inline-block" /></button>
                     </div>
                   </div>
                 )}
@@ -1068,7 +1069,7 @@ const Dashboard: React.FC = () => {
                         <span className="text-xs font-bold text-slate-700 dark:text-gray-200">{task.label}</span>
                       </label>
                       <button onClick={() => removeCustomTask(task.id)} className="text-red-500/50 hover:text-red-500 transition-colors">
-                        <i className="fas fa-trash-can text-[10px]"></i>
+                        <Icon name="fa-trash-can" className="text-[10px]" />
                       </button>
                     </div>
                   ))}
@@ -1085,7 +1086,7 @@ const Dashboard: React.FC = () => {
                 className="flex-grow bg-transparent text-xs p-2 outline-none" 
               />
               <button onClick={() => addCustomTask(SectionType.MUJAHADA)} className="bg-red-600 text-white w-8 h-8 rounded-xl flex items-center justify-center shadow-sm">
-                <i className="fas fa-plus text-xs"></i>
+                <Icon name="fa-plus" className="text-xs" />
               </button>
             </div>
 
@@ -1093,7 +1094,7 @@ const Dashboard: React.FC = () => {
               <div key={idx} className="border border-gray-100 dark:border-gray-800 rounded-2xl overflow-hidden shadow-sm">
                 <button onClick={() => setOpenMujahadaCategory(openMujahadaCategory === idx ? null : idx)} className="w-full flex items-center justify-between p-4 bg-red-50/30 dark:bg-[#1a1a1a]">
                   <span className="text-sm font-black text-red-700 dark:text-red-500">{cat.category}</span>
-                  <i className={`fas fa-chevron-down text-xs transition-transform ${openMujahadaCategory === idx ? 'rotate-180' : ''}`}></i>
+                  <Icon name="fa-chevron-down" className={`text-xs transition-transform ${openMujahadaCategory === idx ? 'rotate-180' : ''}`} />
                 </button>
                 {openMujahadaCategory === idx && (
                   <div className="p-4 bg-white dark:bg-[#151515] space-y-2 animate-fade-in">
@@ -1108,7 +1109,7 @@ const Dashboard: React.FC = () => {
                     ))}
                     <div className="flex gap-2 mt-4 pt-2 border-t border-gray-50">
                        <input type="text" placeholder="غير ذلك..." value={manualInputs[`mujahadaNotes-${idx}`] || ''} onChange={(e) => setManualInputs(p => ({...p, [`mujahadaNotes-${idx}`]: e.target.value}))} className="flex-grow bg-gray-50 dark:bg-[#1a1a1a] text-xs p-3 rounded-xl outline-none" />
-                       <button onClick={() => addManualEntry('mujahadaNotes', idx)} className="bg-red-600 text-white px-4 rounded-xl"><i className="fas fa-plus"></i></button>
+                       <button onClick={() => addManualEntry('mujahadaNotes', idx)} className="bg-red-600 text-white px-4 rounded-xl"><Icon name="fa-plus" className="inline-block" /></button>
                     </div>
                   </div>
                 )}
@@ -1123,7 +1124,7 @@ const Dashboard: React.FC = () => {
           onClick={() => setShowSettings(true)}
           className="w-14 h-14 bg-yellow-600 text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform border-4 border-white dark:border-gray-900"
         >
-          <i className="fas fa-cog text-xl"></i>
+          <Icon name="fa-cog" className="text-xl" />
         </button>
       </div>
 
@@ -1134,7 +1135,7 @@ const Dashboard: React.FC = () => {
             <div className="p-6 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between bg-gray-50/50 dark:bg-[#151515]">
               <h3 className="text-lg font-black text-slate-800 dark:text-gray-100">الإعدادات والنسخ الاحتياطي</h3>
               <button onClick={() => setShowSettings(false)} className="text-gray-400 hover:text-red-500 transition-colors">
-                <i className="fas fa-times text-xl"></i>
+                <Icon name="fa-times" className="text-xl" />
               </button>
             </div>
             
@@ -1142,7 +1143,7 @@ const Dashboard: React.FC = () => {
               <div className="space-y-4">
                 <div className="bg-blue-50 dark:bg-blue-900/10 p-4 rounded-2xl border border-blue-100 dark:border-blue-900/20">
                   <p className="text-xs text-blue-700 dark:text-blue-400 leading-relaxed font-bold">
-                    <i className="fas fa-info-circle mr-1"></i>
+                    <Icon name="fa-exclamation-circle" className="mr-1" />
                     يتم تخزين بياناتك محلياً على جهازك فقط. ننصح بعمل نسخة احتياطية دورياً لضمان عدم فقدان بياناتك عند تغيير الجهاز أو حذف التطبيق.
                   </p>
                 </div>
@@ -1153,20 +1154,20 @@ const Dashboard: React.FC = () => {
                 >
                   <div className="flex items-center gap-4">
                     <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
-                      <i className="fas fa-file-export"></i>
+                      <Icon name="fa-file_export" />
                     </div>
                     <div className="text-right">
                       <p className="text-sm font-black">تصدير نسخة احتياطية</p>
                       <p className="text-[10px] opacity-70">حفظ بياناتك في ملف خارجي</p>
                     </div>
                   </div>
-                  <i className="fas fa-chevron-left text-xs group-hover:-translate-x-1 transition-transform"></i>
+                  <Icon name="fa-chevron_left" className="text-xs group-hover:-translate-x-1 transition-transform" />
                 </button>
 
                 <label className="w-full flex items-center justify-between p-5 rounded-2xl bg-blue-600 text-white shadow-lg hover:bg-blue-700 transition-all group cursor-pointer">
                   <div className="flex items-center gap-4">
                     <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
-                      <i className="fas fa-file-import"></i>
+                      <Icon name="fa-file_import" />
                     </div>
                     <div className="text-right">
                       <p className="text-sm font-black">استيراد نسخة احتياطية</p>
@@ -1174,7 +1175,7 @@ const Dashboard: React.FC = () => {
                     </div>
                   </div>
                   <input type="file" accept=".json" onChange={handleImport} className="hidden" />
-                  <i className="fas fa-chevron-left text-xs group-hover:-translate-x-1 transition-transform"></i>
+                  <Icon name="fa-chevron_left" className="text-xs group-hover:-translate-x-1 transition-transform" />
                 </label>
 
                 <button 
@@ -1183,14 +1184,14 @@ const Dashboard: React.FC = () => {
                 >
                   <div className="flex items-center gap-4">
                     <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
-                      <i className="fas fa-bell"></i>
+                      <Icon name="fa-bell" />
                     </div>
                     <div className="text-right">
                       <p className="text-sm font-black">تجربة الإشعارات</p>
                       <p className="text-[10px] opacity-70">إرسال إشعار تجريبي الآن</p>
                     </div>
                   </div>
-                  <i className="fas fa-chevron-left text-xs group-hover:-translate-x-1 transition-transform"></i>
+                  <Icon name="fa-chevron_left" className="text-xs group-hover:-translate-x-1 transition-transform" />
                 </button>
               </div>
 

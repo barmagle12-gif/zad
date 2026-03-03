@@ -14,12 +14,12 @@
 Set-StrictMode -Version Latest
 Write-Host "Git setup script starting..." -ForegroundColor Cyan
 
-function Check-Command($name) {
+function Test-Command($name) {
   $null = Get-Command $name -ErrorAction SilentlyContinue
   return $? 
 }
 
-if (-not (Check-Command git)) {
+if (-not (Test-Command git)) {
   Write-Error "Git not found in PATH. Please install Git and rerun this script."
   exit 1
 }
