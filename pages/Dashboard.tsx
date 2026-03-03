@@ -410,7 +410,7 @@ const Dashboard: React.FC = () => {
 
       {/* Main Sections */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
-        <SectionCard title="ورد القرآن الكريم" icon="fa-book-open-reader" infoItems={getDailyInfo('QURAN')} defaultOpen={false}>
+        <SectionCard title="ورد القرآن الكريم" icon="book_quran" infoItems={getDailyInfo('QURAN')} defaultOpen={false}>
           <div className="space-y-4">
             <div className="bg-yellow-50/50 dark:bg-[#1a1a1a] p-4 rounded-2xl border border-yellow-100 dark:border-gray-800 space-y-3">
                <div className="flex items-center justify-between">
@@ -561,7 +561,7 @@ const Dashboard: React.FC = () => {
           </div>
         </SectionCard>
 
-        <SectionCard title="قسم الصلاة" icon="fa-mosque" infoItems={getDailyInfo('PRAYER')}>
+        <SectionCard title="قسم الصلاة" icon="person_praying" infoItems={getDailyInfo('PRAYER')}>
           <div className="space-y-4">
             {/* Educational Info Accordions */}
             <div className="space-y-3">
@@ -922,7 +922,7 @@ const Dashboard: React.FC = () => {
           </div>
         </SectionCard>
 
-        <SectionCard title="قسم الأذكار" icon="fa-hands-praying" infoItems={getDailyInfo('AZKAR')}>
+        <SectionCard title="قسم الأذكار" icon="person_praying" infoItems={getDailyInfo('AZKAR')}>
           <div className="space-y-3">
             {/* Custom Tasks for Azkar */}
             {customTasks.filter(t => t.section === SectionType.AZKAR).length > 0 && (
@@ -992,7 +992,7 @@ const Dashboard: React.FC = () => {
           </div>
         </SectionCard>
 
-        <SectionCard title="أعمال البر والطاعات" icon="fa-heart-pulse" infoItems={getDailyInfo('GOOD_DEEDS')}>
+        <SectionCard title="أعمال البر والطاعات" icon="heart" infoItems={getDailyInfo('GOOD_DEEDS')}>
           <div className="space-y-3">
             {/* Custom Tasks for Good Deeds */}
             {customTasks.filter(t => t.section === SectionType.GOOD_DEEDS).length > 0 && (
@@ -1055,7 +1055,7 @@ const Dashboard: React.FC = () => {
           </div>
         </SectionCard>
 
-        <SectionCard title="مجاهدة النفس" icon="fa-shield-halved" infoItems={getDailyInfo('MUJAHADA')}>
+        <SectionCard title="مجاهدة النفس" icon="shield" infoItems={getDailyInfo('MUJAHADA')}>
           <div className="space-y-3">
             {/* Custom Tasks for Mujahada */}
             {customTasks.filter(t => t.section === SectionType.MUJAHADA).length > 0 && (

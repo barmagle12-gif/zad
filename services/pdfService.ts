@@ -36,11 +36,20 @@ export class PdfService {
         windowWidth: 1200, // Fixed width for consistent layout
         onclone: (clonedDoc) => {
           try {
-            // If the host document is in dark mode, make sure the cloned document reflects that
-            const isDark = document.documentElement.classList.contains('dark');
-            if (isDark) {
-              clonedDoc.documentElement.classList.add('dark');
-            }
+            // Force the cloned document to light (paper) mode for printable reports
+                try {
+                  clonedDoc.documentElement.classList.remove('dark');
+                } catch (e) { /* ignore */ }
+                // Inject a small style to force light backgrounds/text and prefer Tajawal/Amiri fonts
+                const override = clonedDoc.createElement('style');
+                override.innerHTML = `
+                  html, body { background: #ffffff !important; color: #0f172a !important; }
+                  #professional-report { background: #ffffff !important; color: #0f172a !important; font-family: "Tajawal", "Amiri", sans-serif !important; }
+                  #professional-report h1, #professional-report h2, #professional-report h3 { font-family: "Amiri", serif !important; }
+                  /* remove dark-scheme selectors */
+                  .dark #professional-report, .dark #professional-report * { all: initial; }
+                `;
+                clonedDoc.head.appendChild(override);
           } catch (e) {
             // ignore
           }
