@@ -256,7 +256,7 @@ const History: React.FC = () => {
           color: #000000 !important;
           background-color: #ffffff !important;
         }
-        .bg-white { background-color: #ffffff !important; }
+        #professional-report .bg-white { background-color: #ffffff !important; }
         .bg-slate-900 { background-color: #0f172a !important; }
         .bg-yellow-600 { background-color: #ca8a04 !important; }
         .bg-emerald-600 { background-color: #059669 !important; }
